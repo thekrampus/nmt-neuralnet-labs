@@ -1,8 +1,8 @@
-% CSE/IT 107: Introduction to Programming
+% CSE/IT 489/589-06: Introduction to Neural Network Applications
 % New Mexico Tech
 %
 % Prepared by Cynthia Veitch, William Kwan, Scott Chadde, Kaley Goatcher,
-% Russell White, and Christopher Koch
+% Russell White, Christopher Koch, and Rob Kelly
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{cselabheader}
@@ -26,7 +26,6 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{textcomp}
-\usepackage{IEEEtrantools}
 % Indention formatting
 \setlength{\parindent}{0.0in}
 \setlength{\parskip}{0.04in}
@@ -43,7 +42,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead{}
-\fancyhead[L]{CSE/IT 107}
+\fancyhead[L]{CSE/IT 489/589-06}
 
 % Color support
 \usepackage{color}
@@ -188,7 +187,6 @@
 \usepackage{amssymb}
 \usepackage{mathtools} % matrix alignment
 \usepackage{dsfont}
-\usepackage{IEEEtrantools} % nice equations
 
 \theoremstyle{definition}
 \declaretheoremstyle[
@@ -237,7 +235,7 @@
 
 \def\Version#1{\def\version{#1}}
 
-\author{CSE/IT 107}
+\author{CSE/IT 489/589-06}
 \date{NMT Department of Computer Science and Engineering}
 
 \hypersetup{hidelinks}
