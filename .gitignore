@@ -83,3 +83,6 @@ tramp
 */*.loe
 */*.pdf
 */*.toc
+
+# Ignore minted output
+*/*minted*
