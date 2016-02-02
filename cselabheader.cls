@@ -219,6 +219,8 @@
 \renewcommand{\listtheoremname}{List of Files to Submit}
 \declaretheorem[style=exercises,name=Problem,refname={problem,problems},Refname={Problem,Problems}]{prob}
 
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Horizontal rule with weight arg
+
 %\makeatletter
 %\AtBeginEnvironment{ex}{%
 %  \patchcmd\@ex
