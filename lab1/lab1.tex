@@ -1,0 +1,48 @@
+% Lab 1: What is WEKA?
+% Author: Rob Kelly
+%
+% CSE/IT 489/589-06: Introduction to Neural Network Applications
+% Spring 2016
+% New Mexico Tech
+%
+% Lab skeleton (ooooo spooky!)
+% * Introduction
+% |-* Define machine learning
+% |-* Give context vis-a-vis statistics, big data, data science
+% ^-* Define neural nets
+% * State of the Field - explain NN libraries, services
+% |-* FANN, PyBrain
+% |-* TensorFlow
+% |-* MATLAB NN Toolkit
+% ^-* WEKA
+%   ^-* Our WEKA distribution - wekaclassalgos
+% * Assignment
+% |-* Get WEKA: http://wekaclassalgos.sourceforge.net/
+% |-* In the Explorer, load `data/segment-challenge.arff`
+% | |-* Explain a little about the dataset
+% | ^-* Explain a little about the Preprocess tab
+% |-* Classify with LVQ
+% | |-* Explain the different kinds of LVQ
+% | |-* Train Lvq1, learningRate=0.3, totalCodebookVectors=20,
+% | |    totalTrainingIterations=1000, using 70% test/train split
+% | |    (expected RAE is ~28%)
+% | |-* Explain the result buffer section-by-section. Save the result buffer
+% | |    as `segment_lvq1_1.log`.
+% | ^-* Question: Check out the confusion matrix. Which class was most often 
+% |      mis-classified? Which class were other instances most-often
+% |      mis-classified as? Conjecture about what each of those facts might
+% |      imply.
+% |-* Overfitting, Illustrated
+% | |-* Train same Lvq1 but with totalTrainingIterations=3000, again using 70%
+% | |    test/train split (expected RAE is ~22.56%)
+% | |-* Train Lvq1 with 1000 iterations again, but use supplied test set
+% | |    `segment-test.arff` (expected RAE is ~37.56%)
+% | |-* Train Lvq1 with 3000 iterations using supplied test set (RAE ~47.92%)
+% | ^-* Question: When we testing our LVQ using a percentage split, increasing
+% |      the training time seemed to train a more accurate classifier. But when
+% |      we validated our LVQ using totally new data, training for longer
+% |      actually DECREASED our accuracy. Why might training a classifier longer
+% |      reduce accuracy? Why wasn't this apparent before we used new data?
+% ^-* Store the result buffer you saved and a document with your answers in
+%      a tar archive named `[firstname]_[lastname]_lab1.tar.gz` and
+%      submit it on Canvas.
