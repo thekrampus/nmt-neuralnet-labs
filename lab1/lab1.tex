@@ -5,46 +5,13 @@
 % Spring 2016
 % New Mexico Tech
 %
-% Lab skeleton (ooooo spooky!)
-% * Introduction
-% * State of the Field - explain NN libraries, services
-% |-* FANN, PyBrain
-% |-* TensorFlow
-% |-* MATLAB NN Toolkit
-% ^-* WEKA
-%   ^-* Our WEKA distribution - wekaclassalgos
-% * Assignment
-% |-* Get WEKA: http://wekaclassalgos.sourceforge.net/
-% |-* In the Explorer, load `data/segment-challenge.arff`
-% | |-* Explain a little about the dataset
-% | ^-* Explain a little about the Preprocess tab
-% |-* Classify with LVQ
-% | |-* Explain the different kinds of LVQ
-% | |-* Train Lvq1, learningRate=0.3, totalCodebookVectors=20,
-% | |    totalTrainingIterations=1000, using 70% test/train split
-% | |    (expected RAE is ~28%)
-% | |-* Explain the result buffer section-by-section. Save the result buffer
-% | |    as `segment_lvq1_1.log`.
-% | ^-* Question: Check out the confusion matrix. Which class was most often 
-% |      mis-classified? Which class were other instances most-often
-% |      mis-classified as? Conjecture about what each of those facts might
-% |      imply.
-% |-* Overfitting, Illustrated
-% | |-* Train same Lvq1 but with totalTrainingIterations=3000, again using 70%
-% | |    test/train split (expected RAE is ~22.56%)
-% | |-* Train Lvq1 with 1000 iterations again, but use supplied test set
-% | |    `segment-test.arff` (expected RAE is ~37.56%)
-% | |-* Train Lvq1 with 3000 iterations using supplied test set (RAE ~47.92%)
-% | ^-* Question: When we testing our LVQ using a percentage split, increasing
-% |      the training time seemed to train a more accurate classifier. But when
-% |      we validated our LVQ using totally new data, training for longer
-% |      actually DECREASED our accuracy. Why might training a classifier longer
-% |      reduce accuracy? Why wasn't this apparent before we used new data?
-% ^-* Store the result buffer you saved and a document with your answers in
-%      a tar archive named `[firstname]_[lastname]_lab1.tar.gz` and
-%      submit it on Canvas.
+% Lab Goal: (revision 2)
+% Just get WEKA
+%
 
 \documentclass[11pt]{cselabheader}
+
+\usepackage{enumitem}
 
 \fancyhead[R]{Lab 1: An Introduction to WEKA}
 \title{Neural Network Applications -- Lab 1 \\ An Introduction to WEKA}
@@ -54,89 +21,159 @@
 
 \horrule{0.5pt}\\\horrule{2pt}
 
-\section{Introduction}
+\section{Background}
+The purpose of this lab exercise is to start getting familiar with \textbf{WEKA}, the popular data mining toolkit which we'll be using for much of our future course work. WEKA is natively a Java library with implementations of many machine learning tasks -- not just neural networks. It's commonly used for data mining applications, but it's also easy to use and learn, and is a good teaching tool for exploring machine learning concepts. WEKA ships with a graphical ``Explorer'' tool, the interface of which closely mirrors the structure of the library. We'll primarily be using this GUI tool in the lab.
 
-Welcome! This lab course accompanies the Introduction to Neural Network Applications lecture series at NMT, CSE/IT 489 or CSE/IT 589 as a graduate course. Although this course is focused on applications, the lecture mostly involves the theoretical background of how neural networks function. In this lab, we'll be learning how that theory is applied in various ``real-world'' applications. There will be a few graded lab exercises like this one -- the exact number has yet to be determined -- which are designed to be completed individually. There will also be several projects later, which you will do in a group.
+One important note: the version of WEKA you'll need for this lab is \textbf{not} the latest version found on the project's web page. We are using the stable release (v3.6.4); what's more, we're using a plug-in for WEKA with an assortment of classification algorithms, including LVQ and Backpropagation.
 
-In this document as well as future labs, we'll briefly go over a bit of background relating to the subject matter, and you'll be tasked with completing a lab exercise. There will also be a few questions to answer, drawing on what you've learned in both the lecture and the lab. For now, listen to your lab TA's instructions, read through this document, complete all given exercises, and finally submit according to the instructions at the end of this document.
+In this exercise, we're going to train a neural network in WEKA to classify segments of images based on their subject. \textit{Classification} is the machine learning task of determining to which of a finite set of classes some data instance belongs; today, we'll be using the \textit{learning vector quantization} (LVQ) algorithm, a type of neural network which can be thought of as a supervised relative to self-organizing maps.
 
-If you have any questions regarding the lab, the content of the course, or the course's homework, exams, and projects, feel free to ask your TA. You'll find us in the lab, or during our office hours (posted on the course Canvas page), or just milling about aimlessly.
+\section{Lab Exercise}
 
-\pagebreak
+\subsection{Get WEKA}
+
+\begin{itemize}[leftmargin=*]
+
+\item Make sure you have the WEKA stand-alone application. WEKA is installed on each of the computers in the sensor networks lab -- just run the command \texttt{weka}.
+
+You might also want to download WEKA for yourself. The version we're using, including the classifier algorithms plug-in, can be found here:
+\begin{center}
+  \url{http://wekaclassalgos.sourceforge.net/}
+\end{center}
+Once you have WEKA, launch the application with the included \texttt{run.sh} shell script (you may need to make it executable with \texttt{chmod}).
+
+\end{itemize}
+
+\subsection{Loading a Data Set}
+
+\begin{itemize}[leftmargin=*]
+
+\item From the launcher, click the Explorer button to open the WEKA Explorer interface.
+
+\item In the \textit{Preprocess} tab (which is selected by default), open the file \texttt{data/segment-challenge.arff}. For this lab exercise, we'll be using an example set of image segmentation data shipped with the WEKA classification algorithms plugin. Each instance in the set is taken from a $3 \times 3$ segment of pixels from a photograph, and is classified based on the subject of the source image.
+
+\end{itemize}
+
+\subsection{Classifying with LVQ}
+
+\begin{itemize}[leftmargin=*]
+
+\item Open the \textit{Classify} tab, and choose the \texttt{Lvq1} classifier (under \texttt{weka > classifiers > neural > lvq > Lvq1}).
+
+\begin{infobox}{PRO TIP!}
+  You might notice that a number of different implementations of LVQ are
+  available. Descriptions of things in WEKA can usually be found in the documentation, or simply
+  by hovering your mouse over it in the menu.
+\end{infobox}
+
+\item With the classifier algorithm selected, you can click the classifier string to bring up the object editor, where you can set the hyperparameters of the algorithm. For now, let's leave everything as default: we're training with a learning rate of 0.3, using 20 codebook vectors, and over 1000 training iterations.
+
+\item In the ``Test options'' panel, $k$-fold cross-validation is selected by default. For this exercise, select \textit{Percentage split} and set it to 70\%. This will randomly partition 70\% of the data set for training the algorithm, and 30\% for testing.
+
+\item Finally, click \textit{Start} to begin training.
+
+\end{itemize}
+
+\subsubsection{Results!}
+
+\begin{itemize}[leftmargin=*]
+
+\item The buffer on the right of the screen shows the results of training and testing. The first few sections give some insight on the training process, and later in the report are some useful statistics on the model's performance in testing.
+
+\item Also of interest: confusion matrix at the bottom of the report. Each element of the matrix denotes the number of times an instance of the class in that row was classified as the class of that column -- correct classifications are therefore along the diagonal.
+
+\item Make sure you understand how to interpret this output -- you'll be using WEKA quite a bit in this lab!
+
+\end{itemize}
+
+\section{Submitting}
+
+Future labs will include exercises which must be completed and turned in for a grade; for this first one, though, all you needed to do was show up. Nice work!
+
+
+% \section{Introduction}
+
+% Welcome! This lab course accompanies the Introduction to Neural Network Applications lecture series at NMT, CSE/IT 489 or CSE/IT 589 as a graduate course. Although this course is focused on applications, the lecture mostly involves the theoretical background of how neural networks function. In this lab, we'll be learning how that theory is applied in various ``real-world'' applications. There will be a few graded lab exercises like this one -- the exact number has yet to be determined -- which are designed to be completed individually. There will also be several projects later, which you will do in a group.
+
+% In this document as well as future labs, we'll briefly go over a bit of background relating to the subject matter, and you'll be tasked with completing a lab exercise. There will also be a few questions to answer, drawing on what you've learned in both the lecture and the lab. For now, listen to your lab TA's instructions, read through this document, complete all given exercises, and finally submit according to the instructions at the end of this document.
+
+% If you have any questions regarding the lab, the content of the course, or the course's homework, exams, and projects, feel free to ask your TA. You'll find us in the lab, or during our office hours (posted on the course Canvas page), or just milling about aimlessly.
+
+% \pagebreak
 
 % \section{Background}
 % % TODO
 
 % \pagebreak
 
-\section{Lab Exercise}
+% \section{Lab Exercise}
 
-\subsection{Get WEKA}
+% \subsection{Get WEKA}
 
-For this exercise and for much of our future course work, we'll be using \textbf{WEKA}, a well-known data mining toolkit. WEKA is natively a Java library with implementations of many machine learning tasks -- not just neural networks. It's been used for data mining applications, but it's also easy to use and learn, and is a good teaching tool for exploring machine learning concepts. WEKA ships with a graphical ``Explorer'' tool, the interface of which closely mirrors the structure of the library. We'll primarily be using this GUI tool in the lab.
+% For this exercise and for much of our future course work, we'll be using \textbf{WEKA}, a well-known data mining toolkit. WEKA is natively a Java library with implementations of many machine learning tasks -- not just neural networks. It's been used for data mining applications, but it's also easy to use and learn, and is a good teaching tool for exploring machine learning concepts. WEKA ships with a graphical ``Explorer'' tool, the interface of which closely mirrors the structure of the library. We'll primarily be using this GUI tool in the lab.
 
-One important note: the version of WEKA you'll need for this lab is \textbf{not} the latest version found on the project's web page. We are using the stable release (v3.6.4); what's more, we're using a plug-in for WEKA with an assortment of classification algorithms, including LVQ and Backpropagation.
+% One important note: the version of WEKA you'll need for this lab is \textbf{not} the latest version found on the project's web page. We are using the stable release (v3.6.4); what's more, we're using a plug-in for WEKA with an assortment of classification algorithms, including LVQ and Backpropagation.
 
-To get started, \textbf{download the project} from the download link on the plug-in's page:
-\begin{center}
-  \url{http://wekaclassalgos.sourceforge.net/}
-\end{center}
+% To get started, \textbf{download the project} from the download link on the plug-in's page:
+% \begin{center}
+%   \url{http://wekaclassalgos.sourceforge.net/}
+% \end{center}
 
-\subsection{Loading a Data Set}
+% \subsection{Loading a Data Set}
 
-Once you have WEKA, launch the application with the included \texttt{run.sh} shell script (you may need to make it executable with \texttt{chmod}). From the launcher, click the Explorer button to open the WEKA Explorer interface. Now, we need to get our hands on some data...
+% Once you have WEKA, launch the application with the included \texttt{run.sh} shell script (you may need to make it executable with \texttt{chmod}). From the launcher, click the Explorer button to open the WEKA Explorer interface. Now, we need to get our hands on some data...
 
-All machine learning algorithms need a set of data on which to work. WEKA uses the \texttt{.ARFF} file format for data sets, and we'll be exploring this format a bit further in future labs. For now, just know the following:
+% All machine learning algorithms need a set of data on which to work. WEKA uses the \texttt{.ARFF} file format for data sets, and we'll be exploring this format a bit further in future labs. For now, just know the following:
 
-\begin{itemize}
-  \item Individual points of data in a dataset are called \textit{instances}, or sometimes \textit{vectors}.
-  \item Each \textit{instance} is an ordered collection of \textit{attributes}.
-  \item \textit{Attributes} have a data \textit{type}, such as numeric (1, -20, 3.14159), date (1776-07-04, 12:00:00) or nominal classes (one of some defined set of possible values).
-\end{itemize}
+% \begin{itemize}
+%   \item Individual points of data in a dataset are called \textit{instances}, or sometimes \textit{vectors}.
+%   \item Each \textit{instance} is an ordered collection of \textit{attributes}.
+%   \item \textit{Attributes} have a data \textit{type}, such as numeric (1, -20, 3.14159), date (1776-07-04, 12:00:00) or nominal classes (one of some defined set of possible values).
+% \end{itemize}
 
-For this lab exercise, we'll be using an example set of image segmentation data shipped with the WEKA classification algorithms plugin. In the \textit{Preprocess} tab (selected by default), open the file \texttt{data/segment-challenge.arff}. Each instance in the set is taken from a $3 \times 3$ segment of pixels from a photograph, and has 19 numeric attributes (relating to various image features) and one nominal \textit{class} attribute describing the source image -- the image segment might be from a brick wall, a picture of the sky, foliage, et cetera.
+% For this lab exercise, we'll be using an example set of image segmentation data shipped with the WEKA classification algorithms plugin. In the \textit{Preprocess} tab (selected by default), open the file \texttt{data/segment-challenge.arff}. Each instance in the set is taken from a $3 \times 3$ segment of pixels from a photograph, and has 19 numeric attributes (relating to various image features) and one nominal \textit{class} attribute describing the source image -- the image segment might be from a brick wall, a picture of the sky, foliage, et cetera.
 
-\subsection{Classifying with LVQ}
+% \subsection{Classifying with LVQ}
 
-We're going to train a neural network to examine image segments like the ones in our data set and figure out the subject of the source image, be it a brick wall, the sky, or whatever. \textit{Classification} is the machine learning task of determining to which of a finite set of classes some data instance belongs; today, we'll be using the \textit{learning vector quantization} (LVQ) algorithm, a type of neural network which can be thought of as a supervised relative to self-organizing maps.
+% We're going to train a neural network to examine image segments like the ones in our data set and figure out the subject of the source image, be it a brick wall, the sky, or whatever. \textit{Classification} is the machine learning task of determining to which of a finite set of classes some data instance belongs; today, we'll be using the \textit{learning vector quantization} (LVQ) algorithm, a type of neural network which can be thought of as a supervised relative to self-organizing maps.
 
-\subsubsection{The Set-up}
+% \subsubsection{The Set-up}
 
-Open the \textit{Classify} tab in WEKA, and choose the \texttt{Lvq1} classifier (under \texttt{weka > classifiers > neural > lvq > Lvq1}). You might notice that a number of different implementations of LVQ are available. Descriptions can usually be found in the documentation, or simply by hovering your mouse over it in the menu. For simplicity's sake, the one we're using is the ``basic'' algorithm, without the bells and whistles.
+% Open the \textit{Classify} tab in WEKA, and choose the \texttt{Lvq1} classifier (under \texttt{weka > classifiers > neural > lvq > Lvq1}). You might notice that a number of different implementations of LVQ are available. Descriptions can usually be found in the documentation, or simply by hovering your mouse over it in the menu. For simplicity's sake, the one we're using is the ``basic'' algorithm, without the bells and whistles.
 
-With the classifier algorithm selected, you can click the classifier string to bring up the object editor, where you can set the hyperparameters of the algorithm. For now, let's leave everything as default: we're training with a learning rate of 0.3, using 20 codebook vectors, and over 1000 training iterations.
+% With the classifier algorithm selected, you can click the classifier string to bring up the object editor, where you can set the hyperparameters of the algorithm. For now, let's leave everything as default: we're training with a learning rate of 0.3, using 20 codebook vectors, and over 1000 training iterations.
 
-The ``Test options'' panel gives us a few options for testing and validating our model. The default, $k$-fold cross-validation, will be discussed more in future exercises. For this exercise, select \textit{Percentage split} and set it to 70\%. This will randomly partition 70\% of the data set for training the algorithm, and 30\% for testing.
+% The ``Test options'' panel gives us a few options for testing and validating our model. The default, $k$-fold cross-validation, will be discussed more in future exercises. For this exercise, select \textit{Percentage split} and set it to 70\%. This will randomly partition 70\% of the data set for training the algorithm, and 30\% for testing.
 
-Finally, click \textit{Start} to begin training.
+% Finally, click \textit{Start} to begin training.
 
-\subsubsection{Results!}
+% \subsubsection{Results!}
 
-The buffer on the right of the screen shows the results of training and testing. The first few sections give some insight on the training process, but we're more interested in later sections. Under the ``Evaluation on test split'' heading, you can find some statistics on the model's performance in testing. About 75\% of instances should have been classified correctly -- not bad for a first try.
+% The buffer on the right of the screen shows the results of training and testing. The first few sections give some insight on the training process, but we're more interested in later sections. Under the ``Evaluation on test split'' heading, you can find some statistics on the model's performance in testing. About 75\% of instances should have been classified correctly -- not bad for a first try.
 
-Check out the confusion matrix at the bottom of the report. Each element of the matrix denotes the number of times an instance of the class in that row was classified as the class of that column -- correct classifications are therefore along the diagonal.
+% Check out the confusion matrix at the bottom of the report. Each element of the matrix denotes the number of times an instance of the class in that row was classified as the class of that column -- correct classifications are therefore along the diagonal.
 
-\begin{ex}[Interpreting our Results]
-  Which class was most often mis-classified by the model? Which class were other instances most often mis-classified as? Conjecture about what each of these results might mean.
+% \begin{ex}[Interpreting our Results]
+%   Which class was most often mis-classified by the model? Which class were other instances most often mis-classified as? Conjecture about what each of these results might mean.
 
-  You should save your answer to this question in a text document, along with your answers to the other questions in this lab exercise. Also, in the WEKA ``Result list'' panel, right-click on the LVQ model you just trained and save the result buffer as \texttt{segment\_lvq1.log}. You will be submitting both of these documents later.
-\end{ex}
+%   You should save your answer to this question in a text document, along with your answers to the other questions in this lab exercise. Also, in the WEKA ``Result list'' panel, right-click on the LVQ model you just trained and save the result buffer as \texttt{segment\_lvq1.log}. You will be submitting both of these documents later.
+% \end{ex}
 
-\pagebreak
-\subsection{Overtraining Illustrated}
+% \pagebreak
+% \subsection{Overtraining Illustrated}
 
-Our last LVQ model performed fairly well, classifying about 75\% of image segments correctly. Maybe we can do better if we fiddle with the hyperparameters... For example, maybe training the network for longer will produce a more accurate classifier.
+% Our last LVQ model performed fairly well, classifying about 75\% of image segments correctly. Maybe we can do better if we fiddle with the hyperparameters... For example, maybe training the network for longer will produce a more accurate classifier.
 
-We can easily test that hypothesis. In the object editor, increase the number of training iterations from 1000 to 3000. Now train the model again, and check the result buffer. The number of correctly classified instances should be a bit higher.
+% We can easily test that hypothesis. In the object editor, increase the number of training iterations from 1000 to 3000. Now train the model again, and check the result buffer. The number of correctly classified instances should be a bit higher.
 
-Well, if training a little longer worked a little better, maybe training \textit{really} long will work \textit{really} well! Let's test that as well: increase the number of training iterations to 9000 and run it.
+% Well, if training a little longer worked a little better, maybe training \textit{really} long will work \textit{really} well! Let's test that as well: increase the number of training iterations to 9000 and run it.
 
-\begin{ex}[Is More Training Better?]
-  There seems to be some sort of relationship between training time and classifier accuracy: increasing the training time seemed like it was helping, but training for a bit longer than that produced a super inaccurate model! Conjecture about what might cause this effect -- it might help to experiment with a few different lengths of training time.
-\end{ex}
+% \begin{ex}[Is More Training Better?]
+%   There seems to be some sort of relationship between training time and classifier accuracy: increasing the training time seemed like it was helping, but training for a bit longer than that produced a super inaccurate model! Conjecture about what might cause this effect -- it might help to experiment with a few different lengths of training time.
+% \end{ex}
 
-\section{Submitting}
+% \section{Submitting}
 
-Store the LVQ result buffer you saved and a document (PDF or plaintext) with your exercise solutions in a \texttt{tar} archive named \texttt{[firstname]\_[lastname]\_lab1.tar.gz} and submit it on the course Canvas page -- there will be a section denoted ``Lab 1'' under the Assignments page. Your submission is due at the end of the lab period, but if you need more time (or for some reason you are unable to attend the lab), please ask!
+% Store the LVQ result buffer you saved and a document (PDF or plaintext) with your exercise solutions in a \texttt{tar} archive named \texttt{[firstname]\_[lastname]\_lab1.tar.gz} and submit it on the course Canvas page -- there will be a section denoted ``Lab 1'' under the Assignments page. Your submission is due at the end of the lab period, but if you need more time (or for some reason you are unable to attend the lab), please ask!
 
 \end{document}
