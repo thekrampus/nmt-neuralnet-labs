@@ -43,7 +43,12 @@
 \horrule{0.5pt}\\\horrule{2pt}
 
 \section{Background}
-%TODO
+
+In the last lab activity, you started getting familiar with \textbf{WEKA}, the data mining toolkit which we'll use frequently in this lab course. Now it's time to start using it for real. Today, you'll be applying a little bit of the theory you've learned in lecture to classification tasks using the LVQ neural network algorithm.
+
+LVQ is a \textit{prototype-based}, \textit{winner-take-all} supervised classification algorithm. It begins with some number of prototype vectors (sometimes called \textit{codebook vectors}) in feature-space, each with some class. For each vector in the training set, it selects the codebook vector that is closest to the the input. If the classification is correct, the codebook vector is moved closer to the input at some learning rate, or further away if incorrect.
+
+Our distribution of WEKA contains a few different implementations of the same basic algorithm\footnote{You can learn more here: \url{http://www.cis.hut.fi/research/lvq_pak/lvq_doc.txt}}, each with different strengths for different applications. In the field, LVQ variants have been particularly useful in classification of text documents\footnote{Fahad and Sikander (2007). ``Classification of textual documents using learning vector quantization.'' Information Technology Journal 6 (1): 154–159.} and optical character recognition\footnote{Loncelle, Derycke, Fogelman (1992). ``Cooperation of GBP and LVQ networks for optical character recognition.'' International Joint Conference on Neural Networks 1992 (3): 694-699.}, among other tasks. In this lab, we'll investigate how to interpret the results of WEKA's LVQ1 classifier, and we'll apply the theory we've learned to ``tune'' the algorithm to a particular dataset.
 
 \pagebreak
 
@@ -97,7 +102,7 @@
   \begin{ex}[Rules of Thumb]
     Let's see if training this model for longer simply works better in general. Train \texttt{Lvq1} models with the same parameters for 100, 1000, 10000, and 100000 iterations. (That last one might take a few seconds.)
 
-    Estimate where there might be a ``sweet spot'' of training time, where RAE is \textit{generally} minimized for this model on this data. It might help to play around with different levels of training time in between what you've just tried. Why doesn't training this LVQ network for \textit{longer} neccessarily make it \textit{better}?
+    Estimate where there might be a ``sweet spot'' of training time, where RAE is \textit{generally} minimized for this model on this data. It might help to play around with different levels of training time in between what you've just tried. Why doesn't training this LVQ network for \textit{longer} necessarily make it \textit{better}?
   \end{ex}
 \end{itemize}
 
