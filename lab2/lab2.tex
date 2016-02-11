@@ -43,9 +43,68 @@
 \horrule{0.5pt}\\\horrule{2pt}
 
 \section{Background}
+%TODO
 
-\section{Lab Exercise}
+\pagebreak
+
+\section{Lab Exercises}
+
+\subsection{Understanding WEKA output}
+
+\begin{itemize}[leftmargin=*]
+  \item Open \texttt{data/segment-challenge.arff} in the WEKA explorer. You might remember this from the last lab, when you trained an LVQ network to classify instances from this image-segment dataset.
+
+  \item Train an \texttt{Lvq1} to classify the dataset. Use 66\% of the dataset to train, and the remainder to test.
+
+  \begin{ex}[Confusing Results]
+    Which class was most often mis-classified by the model? As which class were other instances most often mis-classified? Briefly, conjecture about what these results might mean.
+  \end{ex}
+\end{itemize}
+
+\subsection{Tuning your Hyperparameters}
+
+\begin{itemize}[leftmargin=*]
+  \item Open \texttt{data/soybean.arff} in the WEKA explorer. This is a large dataset with a wide variety of classes; we'll be using it to make a point about classifiers.
+
+  \begin{infobox}{ASTOUNDING DATA FACTZ}
+    Nobody asked, but... This thing is called the \textit{Large Soybean Database}. Wow. Each instance is a vector of features of a soybean plant, each classified by the crop disease afflicting it.
+
+    Soybeans are important.
+  \end{infobox}
+
+  \item Train an \texttt{Lvq1} classifier on this dataset, using the default parameterization just as you did in the last section: 20 codebook vectors over 1000 training epochs. Test it on a 66\% split.
+  \begin{itemize}[leftmargin=*]
+    \item \textit{Your testing should show a Relative Absolute Error (RAE) of about 55\%. (That's not very good.)}
+  \end{itemize}
+  
+  \item Increase the \texttt{totalCodebookVectors} hyperparameter from \textbf{20} (default) to \textbf{100}. This is the number of codebook -- or \textit{prototype} -- vectors the LVQ algorithm will train.
+
+  \begin{ex}[A Few Codebook Vectors More]
+    Examine the results report for the model with 20 codebook vectors and the report for the one with 100 -- in particular, look at the class distribution section. What was the problem with the first model? Why did changing the number of codebook vectors help fix the problem?
+  \end{ex}
+
+  \begin{infobox}{WOAH LOOK OUT}
+    In the \texttt{Lvq1} classifier output in WEKA, the distribution of codebook vectors across the dataset's classes is reported under the ``Classifier model (full training set)'' heading. Specifically, it's in the ``Cass Distribution'' section. Yes, that's supposed to be \textit{Class}.
+  \end{infobox}
+
+\pagebreak
+
+  \item Increase the \texttt{totalTrainingIterations} hyperparameter from \textbf{1000} to \textbf{2000}.
+  \begin{itemize}[leftmargin=*]
+    \item For the LVQ algorithm, we know that a network with more codebook vectors needs more training, so we can reasonably expect bumping up the training time will help.
+  \end{itemize}
+
+  \begin{ex}[Rules of Thumb]
+    Let's see if training this model for longer simply works better in general. Train \texttt{Lvq1} models with the same parameters for 100, 1000, 10000, and 100000 iterations. (That last one might take a few seconds.)
+
+    Estimate where there might be a ``sweet spot'' of training time, where RAE is \textit{generally} minimized for this model on this data. It might help to play around with different levels of training time in between what you've just tried. Why doesn't training this LVQ network for \textit{longer} neccessarily make it \textit{better}?
+  \end{ex}
+\end{itemize}
+
+\pagebreak
 
 \section{Submitting}
+
+Collect your solutions to Exercises 2.1, 2.2, and 2.3 in one document. PDF or plaintext format are both fine. This lab is to be submitted as a group; name your solutions document \texttt{group\_\#\_lab2.tar.gz} (where \# denotes your group's number), and submit it on the \textit{Lab 2} assignment page on the course Canvas page.
 
 \end{document}
