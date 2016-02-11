@@ -1,0 +1,51 @@
+% Lab 2: Machine Learning in Motion
+% Author: Rob Kelly
+%
+% CSE/IT 489/589-06: Introduction to Neural Network Applications
+% Spring 2016
+% New Mexico Tech
+%
+% Lab Goal: (spooky skeleton)
+% \_ Using WEKA and interpreting results
+% |  \_ Open a dataset (data/segment-challenge.arff)
+% |  \_ Train LVQ1 like in lab1
+% |  \_ Question: Check out the confusion matrix. Which class was most often 
+% |      mis-classified? Which class were other instances most-often
+% |      mis-classified as? Conjecture about what each of those facts might
+% |      imply.
+% \_ Tuning parameters to what you know
+%    \_ Open soybean.arff
+%    \_ Default parameterization has 55.7% RAE. Surely we can do better.
+%    \_ Raise totalCodebookVectors to 100 and train LVQ1 again; expect 20.3% RAE
+%    |  \_ Question: Examine the results report for the model with 20 codebook
+%    |      vectors and the report for the model with 100 -- in particular, look
+%    |      at the class distribution section. What was the problem with the
+%    |      first model, and why did changing the number of codebook vectors
+%    |      help?
+%    \_ Raise totalTrainingIterations to 2000; expect 16.5% RAE.
+%       \_ Question: Let's see if training this model for longer simply works
+%           better. Train LVQ1s with the same parameters for 100, 1000, 10000,
+%           and 100000 iterations. (the last one might take a little while.)
+%           Estimate where there might be a "sweet spot" of training time.
+%           Why doesn't training longer simply make the LVQ model better?
+%
+
+\documentclass[11pt]{cselabheader}
+
+\usepackage{enumitem}
+
+\fancyhead[R]{Lab 2: Machine Learning in Motion}
+\title{Neural Network Applications -- Lab 2 \\ Machine Learning in Motion}
+
+\begin{document}
+\maketitle
+
+\horrule{0.5pt}\\\horrule{2pt}
+
+\section{Background}
+
+\section{Lab Exercise}
+
+\section{Submitting}
+
+\end{document}
