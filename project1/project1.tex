@@ -24,7 +24,7 @@
 
 In this programming project, you will work with your group to design a system that can identify and classify a written character from a bitmap using a neural network algorithm. The character data -- bitmap encodings of five different characters -- will be provided for you, and is available on the course Canvas page.
 
-Your group will write three classification models, each based on a neural network algorithm you've learned in class: Hamming-MAXNET, Hopfield Auto-associative Memory, and LVQ. For the former two, your implementation will be original work (not using an existing library) written in Python, Java, R, Julia, or MATLAB\footnote{If you wish to use a language or framework not mentioned, ask your lab assistant.}. Be sure to use a language everyone in your group will be more-or-less comfortable with! For the LVQ model, you will use WEKA's implementation, using the Java language.
+Your group will write two classification models, each based on a neural network algorithm you've learned in class: Hamming-MAXNET and LVQ. For the former, your implementation will be original work (not using an existing library) written in Python, Java, R, Julia, or MATLAB\footnote{If you wish to use a language or framework not mentioned, ask your lab assistant.}. Be sure to use a language everyone in your group will be more-or-less comfortable with! For the LVQ model, you will use WEKA's implementation, using the Java language.
 
 After evaluating the performance of each of these models in the given task, you'll report your process and results in a project report paper.
 
@@ -32,7 +32,7 @@ Your grade will be based on the \textit{functionality}, \textit{completeness}, a
 
 This project is group work, and your individual grade will be weighted based on your contribution to your group. Make sure you are communicating with the rest of your group members!
 
-\textbf{This project is due on March 10th, 2016 -- two weeks from the assignment date.} Don't delay, start today!
+\textbf{This project is due on Friday, March 11th, 2016 -- two weeks from the assignment date.} Don't delay, start today!
 
 \pagebreak
 
@@ -47,9 +47,7 @@ This project is group work, and your individual grade will be weighted based on 
     \item A function to evaluate the performance\footnote{Which aspects of your implementation you wish to evaluate is your decision. Bear in mind, you will need useful performance metrics for your project report!} of a constructed network.
   \end{enumerate}
 
-  \item Implement the Hopfield Auto-associative Memory algorithm to store the characters. Requirements for the interface are the same as above.
-
-  \item Write a classifier to accomplish the same task using WEKA's implementation of LVQ. You will again need to provide the same interface, although LVQ is trained, not constructed (effectively, you'll just be writing a wrapper for the library's implementation).
+  \item Write a classifier to accomplish the same task using WEKA's implementation of LVQ. You will need to provide the same interface as above, although LVQ is trained, not constructed (effectively, you'll just be writing a wrapper for the library's implementation).
   \begin{enumerate}[i.]
     \item \textit{Since WEKA provides implementations of several LVQ variants, you will need to pick one. You will be graded on this decision -- make sure it's a sound one!}
   \end{enumerate}
@@ -57,15 +55,14 @@ This project is group work, and your individual grade will be weighted based on 
 
 \subsection{Project Report}
 \begin{enumerate}
-  \item For each model -- Hamming-MAXNET, Hopfield, and LVQ -- you will briefly describe your implementation. This should include any encoding you apply to the input, as well as any known bugs and defects.
+  \item For each model -- Hamming-MAXNET and LVQ -- you will briefly describe your implementation. This should include any encoding you apply to the input, as well as any known bugs and defects.
 
   \item Evaluate each model independently. Your evaluations should include the speed of training, the speed and accuracy of classification, and any other metrics of performance you wish to use.
   \begin{enumerate}[i.]
-    \item \textit{For the Hopfield model, also comment on the network's capacity. Support your observations with theoretical knowledge of the algorithm.}
     \item \textit{For the LVQ model, you must justify your choice of LVQ variant.}
   \end{enumerate}
 
-  \item Evaluate the sensitivity of each model to noise and distortion of the input, and to different sizes of input.
+  \item Evaluate the sensitivity of each model to noise and distortion the input, and to different sizes of input. There are multiple ways to distort the input with random noise -- be sure to describe in detail how you generate ``noisy'' input, why you did it in this way, and what conclusions you can draw from it.
 
   \item Draw a conclusion: given these results, which algorithm should be used for the task of \textit{optical character recognition (OCR)}?
 \end{enumerate}
