@@ -86,3 +86,8 @@ tramp
 
 # Ignore minted output
 */*minted*
+
+# Ignore packaged archives
+*/*.tar.gz
+*/*.zip
+*/*.rar
