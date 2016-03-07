@@ -42,52 +42,45 @@ tramp
 *.toc
 
 # Apply emacs gitignore to subdirectories
-*/*~
-*/\#*\#
-*/.emacs.desktop
-*/.emacs.desktop.lock
-*/*.elc
-*/auto-save-list
-*/tramp
-*/.\#*
+**/*~
+**/\#*\#
+**/.emacs.desktop
+**/.emacs.desktop.lock
+**/*.elc
+**/auto-save-list
+**/tramp
+**/.\#*
 
 # Org-mode
-*/.org-id-locations
-*/*_archive
+**/.org-id-locations
+**/*_archive
 
 # flymake-mode
-*/*_flymake.*
-
-# eshell files
-/eshell/history
-/eshell/lastdir
-
-# elpa packages
-/elpa/
+**/*_flymake.*
 
 # reftex files
-*/*.rel
+**/*.rel
 
 # AUCTeX auto folder
-*/auto/
+**/auto/
 
 # cask packages
-*/.cask/
+**/.cask/
 
 # server auth directory
 /server/
 
 # misc generated files
-*/*.log
-*/*.aux
-*/*.loe
-*/*.pdf
-*/*.toc
+**/*.log
+**/*.aux
+**/*.loe
+**/*.pdf
+**/*.toc
 
 # Ignore minted output
-*/*minted*
+**/*minted*
 
 # Ignore packaged archives
-*/*.tar.gz
-*/*.zip
-*/*.rar
+**/*.tar.gz
+**/*.zip
+**/*.rar
