@@ -1,0 +1,104 @@
+% Lab 3: Using Backpropagation
+% Author: Rob Kelly
+%
+% CSE/IT 489/589-06: Introduction to Neural Network Applications
+% Spring 2016
+% New Mexico Tech
+%
+% Lab Goal: (spooky skeleton)
+% \_ Backpropagation - MultilayerPerceptron
+% \_ Tuning Parameters - CVParameterSelection
+%
+
+\documentclass[11pt]{cselabheader}
+
+\usepackage{enumitem}
+
+\fancyhead[R]{Lab 3: Using Backpropagation}
+\title{Neural Network Applications -- Lab 3 \\ Using Backpropagation}
+
+\begin{document}
+\maketitle
+
+\horrule{0.5pt}\\\horrule{2pt}
+
+\section{Background}
+
+This lab activity will serve as an introduction to using backpropagation-trained neural networks in WEKA. WEKA ships with the Multilayer Perceptron classifier, a feed-forward neural network architecture with hidden layers trained using backpropagation. Neural network algorithms with one or more hidden layers -- layers other than the input or output -- are sometimes called \emph{deep learning} algorithms, and are useful for learning complicated behaviors in data which aren't well-understood. For this reason, there's been a great deal of renewed interest in the Multilayer Perceptron architecture in the past few years.
+
+It should be noted that the name ``Multilayer Perceptron'' is something of a misnomer. This algorithm has only a tenuous connection to the Perceptron learning algorithm. A multilayer Perceptron network is not a Perceptron, nor are the individual neurons of the network Perceptron neurons -- a multilayer Perceptron uses the sigmoid activation function. Despite this, the name has stuck, and is abundant in the literature.
+
+\pagebreak
+
+\section{Lab Exercises}
+
+\subsection{Multilayer Perceptron}
+\begin{itemize}[leftmargin=*]
+  \item Open \texttt{data/segment-challenge.arff} in the WEKA explorer. This dataset will be included on the Canvas page for this lab.
+
+  \item Under the \emph{Classify} tab, load the Multilayer Perceptron classifier (under \texttt{weka.classifiers.functions}).
+
+  \item Open up the parameter panel for the classifier. A few of the hyperparameters here are of particular interest to us...
+  \begin{itemize}[leftmargin=*]
+    \item The \texttt{learningRate} and \texttt{momentum} parameters, $\epsilon$ and $\alpha$ respectively, are the parameters to backpropagation training.
+    \item The \texttt{trainingTime} is the number of epochs the network will train through. A validation set can be used to halt training early.
+    \item The \texttt{hiddenLayers} parameter takes a string describing the architecture of the network.
+  \end{itemize}
+  
+  \begin{ex}[On Network Architecture]
+    The \texttt{hiddenLayers} parameter of WEKA's Multilayer Perceptron classifier takes a string of space-delimited numbers denoting the number of neurons in each layer. The default value is ``a'', which is a special wildcard value. Take a look at the documentation for the classifier. What does the ``a'' wildcard denote? Why would we want that number of nodes for our hidden layer? (Google it)
+  \end{ex}
+
+  \item Keep all the default values of the parameters and train the classifier. Use 10-fold cross-validation.
+
+  \item Perhaps we could improve our classifier by adjusting the learning rate. Train the classifier again, using $\epsilon=0.15$ (half the default), and once more using $\epsilon=0.6$ (twice the default).
+
+  \begin{ex}[On the Learning Rate]
+    For any hyperparameter of any machine learning model, there is an \emph{optimal} value, but this value is unlikely to be obvious... With respect to the training error function, what problems might a backpropagation-trained neural network encounter if the learning rate is \emph{too low?} What if it is \emph{too high?}
+  \end{ex}
+
+\end{itemize}
+
+\pagebreak
+\subsection{Optimizing Parameters}
+
+Picking and choosing parameters by hand isn't a very good way to optimize our model -- it's tedious, and poses a high risk of overfitting. WEKA offers a better method.
+
+\begin{itemize}[leftmargin=*]
+  \item Still in the \emph{Classify} tab, load the \texttt{CVParameterSelection} meta-classifier (under \texttt{weka.classifiers.meta}).
+
+  \item In the \texttt{CVParameterSelection} parameter panel, choose MultilayerPerceptron as the classifier to be optimized. Set \texttt{numFolds} to 5. Also, set \texttt{debug} to true -- this will print the results of each round of optimization to the console.
+
+  \item The parameter(s) to optimize are specified via the \texttt{CVParameters} hyperparameter. Set this to optimize the learning rate parameter (which uses the flag \texttt{L}) by searching from 0.1 to 1.0 with 10 increments.
+  \begin{itemize}[leftmargin=*]
+    \item Check the \texttt{CVParameterSelection} documentation for a description of how to specify this.
+  \end{itemize}
+
+  \item Under test options, set the meta-classifier to evaluate using the training set.
+  \begin{itemize}[leftmargin=*]
+    \item Note that the optimization process will still use 5-fold cross validation -- there's not much use here in validating the optimizer itself.
+  \end{itemize}
+
+  \item Start the classifier. This may take a while -- it's building and validating 10 models sequentially. Once it's done, check the output to find the optimized learning rate. Try evaluating a Multilayer Perceptron classifier using the supplied test set \texttt{data/segment-test.arff}. First use the default learning rate, and then the optimized learning rate.
+
+  \item Maybe we ought to optimize the training time as well. Use \texttt{CVParameterSelection} to search for an optimal training time, searching from 100 to 1500 epochs with 8 increments.
+
+  \begin{ex}[Optimizing Optimization]
+    You've considered two hyperparameters for optimization -- learning rate and training time. You could search for an optimal training time given the default learning rate... Or you could use the optimized learning rate you just found.
+
+    Is there any procedural error or mis-step in doing either? What would be the most ``procedurally-sound'' way to optimize two hyperparameters?
+  \end{ex}
+
+  % \begin{ex}[On Overtraining]
+  %   Recall that for the LVQ model, more training wasn't always better -- after a certain point, the model's accuracy would stop improving. For backpropagation-trained deep neural networks, too much training will often actually result in a model which performs \emph{worse}. What causes this?
+  % \end{ex}
+
+\end{itemize}
+
+\pagebreak
+
+\section{Submitting}
+
+Collect your solutions to the lab exercises in one document. PDF or plaintext format are both fine. This lab is to be submitted as a group; name your solutions document \texttt{group\_\#\_lab3.pdf} (where \# denotes your group's number), and submit it on the \textit{Lab 3} assignment page on the course Canvas page.
+
+\end{document}
