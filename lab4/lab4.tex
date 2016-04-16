@@ -31,10 +31,6 @@
 
 \section{Background}
 
-% This lab activity will serve as an introduction to using backpropagation-trained neural networks in WEKA. WEKA ships with the Multilayer Perceptron classifier, a feed-forward neural network architecture with hidden layers trained using backpropagation. Neural network algorithms with one or more hidden layers -- layers other than the input or output -- are sometimes called \emph{deep learning} algorithms, and are useful for learning complicated behaviors in data which aren't well-understood. For this reason, there's been a great deal of renewed interest in the Multilayer Perceptron architecture in the past few years.
-
-% It should be noted that the name ``Multilayer Perceptron'' is something of a misnomer. This algorithm has only a tenuous connection to the Perceptron learning algorithm. A multilayer Perceptron network is not a Perceptron, nor are the individual neurons of the network Perceptron neurons -- a multilayer Perceptron uses the sigmoid activation function. Despite this, the name has stuck, and is abundant in the literature.
-
 In past lab exercises, we've followed a set pattern: take a dataset, pick a classifier, train and evaluate. Much of our study has focused on optimizing parameters to this classifier. In practice, things are rarely so simple. Not all data is perfectly suited for every model; a large degree of the work of a data scientist is \emph{processing} the data, \emph{filtering out} bad data points, \emph{analyzing} the information underlying the data, and \emph{encoding} the data for classification.
 
 WEKA provides us with a useful set of tools for data processing and analysis, and this lab exercise will introduce a number of them. In this lab, we'll be examining the MNIST handwriting dataset. This set consists of about 2000 images of handwritten numerals, and is fairly well-known in neural-network pedagogy.
@@ -58,7 +54,7 @@ These images are encoded as $28 \times 28$-pixel grayscale bitmaps; in the datas
 \begin{itemize}[leftmargin=*]
   \item Open \texttt{mnist.arff} in the WEKA explorer. This dataset will be included on the Canvas page for this lab.
 
-  \item Let's get a baseline for performance before we do anything else. Train a \textsc{lvq3} classifier on the dataset and evaluate with 10-fold cross-validation. Leave all the parameters as default. Save the result buffer; you will be submitting it later.
+  \item Let's get a baseline for performance before we do anything else. Train a \textsc{lvq3} classifier on the dataset and evaluate with 5-fold cross-validation. Leave all the parameters as default. Save the result buffer; you will be submitting it later.
 
   \item Open the \emph{Preprocess} tab. Select any attribute of the dataset to visualize it as a histogram in the lower left. Likewise, open the \emph{Visualize} tab. This view shows a plot of each attribute against every other, with each point representing an instance, indicating class by color. Click on any of these plots to enlarge. Many of these points will overlap; use the \emph{jitter} slider to ``spread them out'' a bit. You can view the details of any specific point by clicking on it.
  
